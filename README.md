@@ -1,7 +1,7 @@
 Minisign Java SDK
 =======================
 
-Minisign is a dead simple tool to sign files and verify signatures.
+[Minisign](https://jedisct1.github.io/minisign/) is a dead simple tool to sign files and verify signatures.
 It is portable, lightweight, and uses the highly secure Ed25519 public-key signature system.
 
 # Java SDK for Minisign
