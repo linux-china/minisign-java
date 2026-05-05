@@ -60,7 +60,7 @@ public class MinisignSecretKey {
         data[0] = 'E';
         data[1] = 'd';   // sig_algorithm
         data[2] = 0;
-        data[3] = 0;   //  no password protection
+        data[3] = 0;   //  no password protection: kdf
         data[4] = 'B';
         data[5] = '2';   // chk_algorithm
         // bytes 6..53: kdf_salt(32) + opslimit(8) + memlimit(8) = zeros
