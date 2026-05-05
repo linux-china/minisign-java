@@ -54,6 +54,14 @@ public class MinisignSignature {
     }
 
     /**
+     * Returns the 74-byte signature structure with base64 encoding:
+     * sig_algorithm(2) "Ed" + key_id(8) + ed25519_sig(64)
+     */
+    public String toSignatureBase64() {
+        return Base64.getEncoder().encodeToString(toSignatureBytes());
+    }
+
+    /**
      * Format as .minisig file content.
      */
     public String toFileContent(String untrustedComment) {
