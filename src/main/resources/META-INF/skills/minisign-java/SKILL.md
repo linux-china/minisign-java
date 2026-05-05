@@ -17,6 +17,8 @@ Add following dependency into your `pom.xml` file:
 </dependency>
 ```
 
+**Attention**: Java 17 or later is required for native EdDSA support.
+
 ## SDK Core
 
 - `MinisignService`: Minisign Service interface
@@ -54,3 +56,8 @@ boolean result = service.verify(data, signatureBase64, publicKey);
 - Load global key pair: `MinisignService.loadKeyPair()`
 
 **Attention**: password of the secret key is not supported now, please use `minisign -C -W` to clear the password.
+
+## References
+
+* Minisign Docs: https://jedisct1.github.io/minisign/ 
+* Minisign GitHub Repository: https://github.com/jedisct1/minisign
