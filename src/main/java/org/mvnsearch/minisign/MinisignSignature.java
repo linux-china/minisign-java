@@ -75,7 +75,11 @@ public class MinisignSignature {
      * Format as .minisig file content.
      */
     public String toFileContent() {
-        return toFileContent(DEFAULT_COMMENT);
+        if (this.untrustedComment != null && !this.untrustedComment.isEmpty()) {
+            return toFileContent(this.untrustedComment);
+        } else {
+            return toFileContent(DEFAULT_COMMENT);
+        }
     }
 
     /**
