@@ -64,26 +64,48 @@ public class MinisignServiceImpl implements MinisignService {
 
     @Override
     public MinisignSignature sign(byte[] data, MinisignSecretKey secretKey) throws Exception {
-        PrivateKey privKey = buildPrivateKey(secretKey.getSeed());
-        byte[] sig = ed25519Sign(privKey, data);
-
-        String trustedComment = "timestamp:" + System.currentTimeMillis() / 1000 + "\thashed";
-        byte[] globalSig = computeGlobalSignature(privKey, sig, trustedComment);
-
-        return new MinisignSignature(secretKey.getKeyId(), sig, trustedComment, globalSig);
+        return sign(data, secretKey, null, null);
     }
 
     @Override
     public MinisignSignature signFile(Path file, MinisignSecretKey secretKey) throws Exception {
+        return signFile(file, secretKey, null, null);
+    }
+
+    @Override
+    public MinisignSignature sign(byte[] data, MinisignSecretKey secretKey, String untrustedComment, String trustedComment) throws Exception {
+        PrivateKey privKey = buildPrivateKey(secretKey.getSeed());
+        byte[] sig = ed25519Sign(privKey, data);
+
+        if (trustedComment == null || trustedComment.isEmpty()) {
+            trustedComment = "timestamp:" + System.currentTimeMillis() / 1000 + "\thashed";
+        }
+        byte[] globalSig = computeGlobalSignature(privKey, sig, trustedComment);
+
+        final MinisignSignature signature = new MinisignSignature(secretKey.getKeyId(), sig, trustedComment, globalSig);
+        if (untrustedComment != null && !untrustedComment.isEmpty()) {
+            signature.setUntrustedComment(untrustedComment);
+        }
+        return signature;
+    }
+
+    @Override
+    public MinisignSignature signFile(Path file, MinisignSecretKey secretKey, String untrustedComment, String trustedComment) throws Exception {
         byte[] data = Files.readAllBytes(file);
         PrivateKey privKey = buildPrivateKey(secretKey.getSeed());
         byte[] sig = ed25519Sign(privKey, data);
 
-        String trustedComment = "timestamp:" + System.currentTimeMillis() / 1000
-                + "\tfile:" + file.getFileName();
+        if (trustedComment == null || trustedComment.isEmpty()) {
+            trustedComment = "timestamp:" + System.currentTimeMillis() / 1000
+                    + "\tfile:" + file.getFileName();
+        }
         byte[] globalSig = computeGlobalSignature(privKey, sig, trustedComment);
 
-        return new MinisignSignature(secretKey.getKeyId(), sig, trustedComment, globalSig);
+        final MinisignSignature signature = new MinisignSignature(secretKey.getKeyId(), sig, trustedComment, globalSig);
+        if (untrustedComment != null && !untrustedComment.isEmpty()) {
+            signature.setUntrustedComment(untrustedComment);
+        }
+        return signature;
     }
 
     @Override
@@ -110,6 +132,11 @@ public class MinisignServiceImpl implements MinisignService {
     @Override
     public boolean verifyFile(Path file, MinisignSignature sig, MinisignPublicKey publicKey) throws Exception {
         return verify(Files.readAllBytes(file), sig, publicKey);
+    }
+
+    @Override
+    public boolean verifyFile(Path file, String signature, MinisignPublicKey publicKey) throws Exception {
+        return verify(Files.readAllBytes(file), signature, publicKey);
     }
 
     // -------------------------------------------------------------------------

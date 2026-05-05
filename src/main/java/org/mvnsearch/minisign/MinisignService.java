@@ -35,6 +35,17 @@ public interface MinisignService {
      */
     MinisignSignature signFile(Path file, MinisignSecretKey secretKey) throws Exception;
 
+
+    /**
+     * Sign a byte array.
+     */
+    MinisignSignature sign(byte[] data, MinisignSecretKey secretKey, String untrustedComment, String trustedComment) throws Exception;
+
+    /**
+     * Sign a file.
+     */
+    MinisignSignature signFile(Path file, MinisignSecretKey secretKey, String untrustedComment, String trustedComment) throws Exception;
+
     /**
      * Verify a signature over a byte array.
      */
@@ -52,4 +63,10 @@ public interface MinisignService {
      * Verify a signature over a file.
      */
     boolean verifyFile(Path file, MinisignSignature signature, MinisignPublicKey publicKey) throws Exception;
+
+    /**
+     * Verify a signature over a file.
+     */
+    boolean verifyFile(Path file, String signature, MinisignPublicKey publicKey) throws Exception;
+
 }
