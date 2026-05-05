@@ -19,16 +19,16 @@ public class MinisignPublicKey {
         return keyId;
     }
 
-    public byte[] getKeyBytes() {
-        return keyBytes;
-    }
-
     public String getKeyIdHex() {
         StringBuilder sb = new StringBuilder(16);
         for (byte b : keyId) {
             sb.append(String.format("%02X", b));
         }
         return sb.toString();
+    }
+
+    public byte[] getKeyBytes() {
+        return keyBytes;
     }
 
     /**
