@@ -107,6 +107,7 @@ public class MinisignSecretKey {
         System.arraycopy(data, 62, keyPair, 0, 64);
 
         byte[] actualChk = Arrays.copyOfRange(data, 126, 158);
+        // checksum for secret key
         if (actualChk[0] != 0 && actualChk[31] != 0) {
             // <signature_algorithm> || <key_id> || <secret_key> || <public_key>
             byte[] toHash = new byte[74];
