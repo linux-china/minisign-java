@@ -1,7 +1,6 @@
 ---
 name: minisign-java
-description: Minisign Java SDK is a Java library to sign and verify signatures with highly secure Ed25519 public-key
-signature system
+description: a Java library to sign and verify signatures with highly secure Ed25519 public-key signature system
 ---
 
 ## Dependency
@@ -59,5 +58,5 @@ boolean result = service.verify(data, signatureBase64, publicKey);
 
 ## References
 
-* Minisign Docs: https://jedisct1.github.io/minisign/ 
+* Minisign Docs: https://jedisct1.github.io/minisign/
 * Minisign GitHub Repository: https://github.com/jedisct1/minisign
