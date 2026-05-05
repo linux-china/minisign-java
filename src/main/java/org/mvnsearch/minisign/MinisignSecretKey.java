@@ -19,6 +19,14 @@ public class MinisignSecretKey {
         return keyId;
     }
 
+    public String getKeyIdHex() {
+        StringBuilder sb = new StringBuilder(16);
+        for (byte b : keyId) {
+            sb.append(String.format("%02X", b));
+        }
+        return sb.toString();
+    }
+
     /**
      * Full 64-byte secret key: seed (32 bytes) + public key (32 bytes).
      */
