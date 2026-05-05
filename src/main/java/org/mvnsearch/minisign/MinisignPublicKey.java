@@ -2,6 +2,9 @@ package org.mvnsearch.minisign;
 
 import java.util.Base64;
 
+import static org.mvnsearch.minisign.MinisignConstant.COMMENT_PREFIX;
+import static org.mvnsearch.minisign.MinisignConstant.isEd;
+
 public class MinisignPublicKey {
 
     private final byte[] keyId;       // 8 bytes
@@ -46,7 +49,7 @@ public class MinisignPublicKey {
      */
     public static MinisignPublicKey fromBase64(String base64) {
         byte[] data = Base64.getDecoder().decode(base64.trim());
-        if (data.length < 42 || data[0] != 'E' || data[1] != 'd') {
+        if (data.length < 42 || !isEd(data[0], data[1])) {
             throw new IllegalArgumentException("Invalid public key format");
         }
         byte[] keyId = new byte[8];
@@ -76,7 +79,7 @@ public class MinisignPublicKey {
      * Format as .pub file content.
      */
     public String toFileContent() {
-        return "untrusted comment: minisign public key " + getKeyIdHex() + "\n"
+        return COMMENT_PREFIX + "minisign public key " + getKeyIdHex() + "\n"
                 + toBase64() + "\n";
     }
 }

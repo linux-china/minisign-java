@@ -3,6 +3,8 @@ package org.mvnsearch.minisign;
 import java.util.Arrays;
 import java.util.Base64;
 
+import static org.mvnsearch.minisign.MinisignConstant.*;
+
 public class MinisignSecretKey {
 
     private final byte[] keyId;        // 8 bytes
@@ -82,11 +84,11 @@ public class MinisignSecretKey {
      */
     public static MinisignSecretKey fromBase64(String base64) {
         byte[] data = Base64.getDecoder().decode(base64.trim());
-        if (data.length < 158 || data[0] != 'E' || data[1] != 'd') {
+        if (data.length < 158 || !isEd(data[0], data[1])) {
             throw new IllegalArgumentException("Invalid secret key format");
         }
         // password protection -  kdf_algorithm: Sc
-        if (data[2] == 'S' || data[3] == 'c') {
+        if (isKdf(data[2], data[3])) {
             throw new UnsupportedOperationException("Password-protected keys are not supported");
         }
         byte[] signatureAlgorithm = new byte[2];
@@ -131,7 +133,7 @@ public class MinisignSecretKey {
      * Format as .key file content.
      */
     public String toFileContent() {
-        return "untrusted comment: minisign encrypted secret key\n"
+        return COMMENT_PREFIX + SECRETKEY_DEFAULT_COMMENT + "\n"
                 + toBase64() + "\n";
     }
 }

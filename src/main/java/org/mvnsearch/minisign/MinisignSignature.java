@@ -2,6 +2,8 @@ package org.mvnsearch.minisign;
 
 import java.util.Base64;
 
+import static org.mvnsearch.minisign.MinisignConstant.*;
+
 public class MinisignSignature {
 
     private final byte[] keyId;           // 8 bytes
@@ -55,9 +57,9 @@ public class MinisignSignature {
      * Format as .minisig file content.
      */
     public String toFileContent(String untrustedComment) {
-        return "untrusted comment: " + untrustedComment + "\n"
+        return COMMENT_PREFIX + untrustedComment + "\n"
                 + Base64.getEncoder().encodeToString(toSignatureBytes()) + "\n"
-                + "trusted comment: " + trustedComment + "\n"
+                + TRUSTED_COMMENT_PREFIX + trustedComment + "\n"
                 + Base64.getEncoder().encodeToString(globalSignature) + "\n";
     }
 
@@ -65,7 +67,7 @@ public class MinisignSignature {
      * Format as .minisig file content.
      */
     public String toFileContent() {
-        return toFileContent("signature from minisign secret key");
+        return toFileContent(DEFAULT_COMMENT);
     }
 
     /**
@@ -78,7 +80,7 @@ public class MinisignSignature {
         // lines[2]: trusted comment
         // lines[3]: base64-encoded 64-byte global signature
         byte[] sigData = Base64.getDecoder().decode(lines[1].trim());
-        if (sigData.length < 74 || sigData[0] != 'E' || sigData[1] != 'd') {
+        if (sigData.length < 74 || !isEd(sigData[0], sigData[1])) {
             throw new IllegalArgumentException("Invalid signature format");
         }
         byte[] keyId = new byte[8];
@@ -88,13 +90,13 @@ public class MinisignSignature {
 
         // untrusted comment
         String untrustedCommentLine = lines[0].trim();
-        String untrustedPrefix = "untrusted comment: ";
+        String untrustedPrefix = COMMENT_PREFIX;
         String untrustedComment = untrustedCommentLine.startsWith(untrustedPrefix)
                 ? untrustedCommentLine.substring(untrustedPrefix.length())
                 : untrustedCommentLine;
         // trusted comment
         String trustedCommentLine = lines[2].trim();
-        String trustedPrefix = "trusted comment: ";
+        String trustedPrefix = TRUSTED_COMMENT_PREFIX;
         String trustedComment = trustedCommentLine.startsWith(trustedPrefix)
                 ? trustedCommentLine.substring(trustedPrefix.length())
                 : trustedCommentLine;

@@ -67,7 +67,7 @@ public class MinisignServiceImpl implements MinisignService {
         PrivateKey privKey = buildPrivateKey(secretKey.getSeed());
         byte[] sig = ed25519Sign(privKey, data);
 
-        String trustedComment = "timestamp:" + System.currentTimeMillis() / 1000 + "\tdata";
+        String trustedComment = "timestamp:" + System.currentTimeMillis() / 1000 + "\thashed";
         byte[] globalSig = computeGlobalSignature(privKey, sig, trustedComment);
 
         return new MinisignSignature(secretKey.getKeyId(), sig, trustedComment, globalSig);
