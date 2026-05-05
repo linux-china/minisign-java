@@ -28,12 +28,17 @@ A java demo:
 
 ```java
 MinisignService service = new MinisignServiceImpl();
+// get secret key from base64
+final MinisignSecretKey secretKey = MinisignSecretKey.fromBase64("xxx");
 // get public key from base64
 final MinisignPublicKey publicKey = MinisignPublicKey.fromBase64("xxx");
-// verify signature
+// signature data
 byte[] data = "hello world!".getBytes();
-String signature = "RWSfST7entCa/bXk4JCe8PKXRRU89mxxxx";
-boolean result = service.verify(data, signature, publicKey);
+MinisignSignature sig = service.sign(data, keyPair.getSecretKey());
+// base64(<signature_algorithm> || <key_id> || <signature>)
+final String signatureBase64 = sig.toSignatureBase64();
+// verify signature
+boolean result = service.verify(data, signatureBase64, publicKey);
 ```
 
 ## Compare with Command Line
