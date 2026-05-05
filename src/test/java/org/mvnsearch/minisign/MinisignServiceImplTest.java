@@ -82,7 +82,7 @@ class MinisignServiceImplTest {
 
         MinisignSignature sig = service.sign(data, keyPair.getSecretKey());
         assertTrue(service.verify(data, sig, keyPair.getPublicKey()));
-        System.out.println(sig.toFileContent("signature from minisign secret key"));
+        System.out.println(sig.toFileContent());
     }
 
     @Test
@@ -153,8 +153,6 @@ class MinisignServiceImplTest {
         MinisignPublicKey publicKey = keyPair.getPublicKey();
         System.out.println(privateKey.toFileContent());
         System.out.println(publicKey.toFileContent());
-
-
     }
 
 }
