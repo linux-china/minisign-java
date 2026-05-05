@@ -49,6 +49,12 @@ public class Blake2b {
         return b.digest();
     }
 
+    public static byte[] hash512(byte[] input) {
+        Blake2b b = new Blake2b(64);
+        b.update(input, 0, input.length);
+        return b.digest();
+    }
+
     public void update(byte[] in, int off, int len) {
         while (len > 0) {
             if (bufLen == 128) {
