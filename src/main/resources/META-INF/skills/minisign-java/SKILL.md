@@ -52,4 +52,5 @@ boolean result = service.verify(data, signatureBase64, publicKey);
 - Load private key: `MinisignSecretKey.fromBase64()` or `MinisignSecretKey.fromFileContent()`
 - Load public key: `MinisignPublicKey.fromBase64()` or `MinisignPublicKey.fromFileContent()`
 - Load global key pair: `MinisignService.loadKeyPair()`
-                         
+
+**Attention**: password of the secret key is not supported now, please use `minisign -C -W` to clear the password.
