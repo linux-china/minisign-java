@@ -36,6 +36,10 @@ public class MinisignSignature {
         return untrustedComment;
     }
 
+    public void setUntrustedComment(String untrustedComment) {
+        this.untrustedComment = untrustedComment;
+    }
+
     public byte[] getGlobalSignature() {
         return globalSignature;
     }
