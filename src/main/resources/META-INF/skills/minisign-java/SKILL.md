@@ -12,7 +12,7 @@ Add following dependency into your `pom.xml` file:
 <dependency>
     <groupId>org.mvnsearch</groupId>
     <artifactId>minisign-java</artifactId>
-    <version>0.2.0</version>
+    <version>0.2.1</version>
 </dependency>
 ```
 
