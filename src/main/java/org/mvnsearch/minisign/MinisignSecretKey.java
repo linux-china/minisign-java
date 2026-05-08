@@ -142,7 +142,7 @@ public class MinisignSecretKey {
      * Format as .key file content.
      */
     public String toFileContent() {
-        return COMMENT_PREFIX + SECRETKEY_DEFAULT_COMMENT + "\n"
+        return COMMENT_PREFIX + SECRET_KEY_DEFAULT_COMMENT + "\n"
                 + toBase64() + "\n";
     }
 }

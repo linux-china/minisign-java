@@ -8,7 +8,7 @@ public class MinisignSignature {
 
     private final byte[] keyId;           // 8 bytes
     private final byte[] signature;       // 64 bytes Ed25519 signature over the data
-    private String untrustedComment;  // content after "trusted comment: " (no newline)
+    private String untrustedComment;  // content after "untrusted comment: " (no newline)
     private final String trustedComment;  // content after "trusted comment: " (no newline)
     private final byte[] globalSignature; // 64 bytes Ed25519 signature over sig+trustedComment
 
